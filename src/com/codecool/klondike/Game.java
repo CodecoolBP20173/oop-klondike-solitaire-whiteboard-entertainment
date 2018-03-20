@@ -149,6 +149,7 @@ public class Game extends Pane {
 
     private void handleValidMove(Card card, Pile destPile) {
         String msg = null;
+//        Pile sourcePile = card.getContainingPile();
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
@@ -160,6 +161,7 @@ public class Game extends Pane {
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
         draggedCards.clear();
+//        sourcePile.getTopCard().flip();
     }
 
 
@@ -222,8 +224,8 @@ public class Game extends Pane {
     }
 
     private void flipTheTopCardOfAllTableauPiles() {
-        for (int i=0; i<tableauPiles.size() ; i++) {
-            tableauPiles.get(i).getTopCard().flip();
+        for (Pile tableauPile : tableauPiles) {
+            tableauPile.getTopCard().flip();
         }
     }
 
