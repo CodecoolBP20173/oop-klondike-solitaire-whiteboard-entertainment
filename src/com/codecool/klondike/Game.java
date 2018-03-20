@@ -83,7 +83,7 @@ public class Game extends Pane {
             handleValidMove(card, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            //draggedCards = null;
         }
     };
 
@@ -120,7 +120,7 @@ public class Game extends Pane {
             }
             return false;
         } else {
-            return Card.isOppositeColor(card, lastCardInPile) && card.getRank() < lastCardInPile.getRank();
+            return Card.isOppositeColor(card, lastCardInPile) && lastCardInPile.getRank() - card.getRank() == 1;
         }
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
