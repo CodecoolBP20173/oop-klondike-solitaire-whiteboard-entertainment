@@ -57,21 +57,35 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
-        if (activePile.getPileType() == Pile.PileType.STOCK)
-            return;
-        double offsetX = e.getSceneX() - dragStartX;
-        double offsetY = e.getSceneY() - dragStartY;
+        ArrayList<Card> flippedCardsInPile = activePile.getAllFlippedCards();
+        if (flippedCardsInPile.contains(card)) {
+            if (activePile.getPileType() == Pile.PileType.STOCK)
+                return;
+            double offsetX = e.getSceneX() - dragStartX;
+            double offsetY = e.getSceneY() - dragStartY;
 
-        draggedCards.clear();
-        draggedCards.add(card);
+            draggedCards.clear();
+            int currCardIdx = flippedCardsInPile.indexOf(card);
+            if (flippedCardsInPile.indexOf(card) != flippedCardsInPile.size())
+            {
+                for (int i = currCardIdx; i < flippedCardsInPile.size(); i++){
+                    draggedCards.add(flippedCardsInPile.get(i));
+                }
+            } else {
+                draggedCards.add(card);
+            }
 
-        card.getDropShadow().setRadius(20);
-        card.getDropShadow().setOffsetX(10);
-        card.getDropShadow().setOffsetY(10);
 
-        card.toFront();
-        card.setTranslateX(offsetX);
-        card.setTranslateY(offsetY);
+            card.getDropShadow().setRadius(20);
+            card.getDropShadow().setOffsetX(10);
+            card.getDropShadow().setOffsetY(10);
+
+            for (Card dragged : draggedCards) {
+                dragged.toFront();
+                dragged.setTranslateX(offsetX);
+                dragged.setTranslateY(offsetY);
+            }
+        }
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
@@ -79,9 +93,10 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
-        //TODO
+        //TODO ?Might be done?
         if (pile != null) {
             handleValidMove(card, pile);
+            MouseUtil.slideToDest(draggedCards, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
