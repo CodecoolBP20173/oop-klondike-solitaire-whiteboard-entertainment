@@ -93,13 +93,21 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
+
         //TODO ?Might be done?
         if (pile != null) {
             handleValidMove(card, pile);
             MouseUtil.slideToDest(draggedCards, pile);
         } else {
-            draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards.clear();
+            pile = getValidIntersectingPile(card, foundationPiles);
+            if (pile == null) {
+                draggedCards.forEach(MouseUtil::slideBack);
+                draggedCards.clear();
+            } else {
+                handleValidMove(card, pile);
+                MouseUtil.slideToDest(draggedCards, pile);
+            }
+
         }
     };
 
