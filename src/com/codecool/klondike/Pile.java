@@ -8,8 +8,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.util.List;
-import java.util.ListIterator;
+import java.util.ArrayList;
 
 public class Pile extends Pane {
 
@@ -87,6 +86,14 @@ public class Pile extends Pane {
         GaussianBlur gaussianBlur = new GaussianBlur(10);
         setBackground(background);
         setEffect(gaussianBlur);
+    }
+
+    public ArrayList<Card> getAllFlippedCards() {
+        ArrayList<Card> flippedCards = new ArrayList<>();
+        for (Card currCard : this.getCards()){
+            if (!currCard.isFaceDown()) flippedCards.add(currCard);
+        }
+        return flippedCards;
     }
 
     public enum PileType {
