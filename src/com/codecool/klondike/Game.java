@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class Game extends Pane {
             handleValidMove(card, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            draggedCards.clear();
         }
     };
 
@@ -96,6 +97,7 @@ public class Game extends Pane {
         deck = Card.createNewDeck();
         initPiles();
         dealCards();
+        flipTheTopCardOfAllTableauPiles();
     }
 
     public void addMouseEventHandlers(Card card) {
@@ -106,13 +108,26 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+        Collections.reverse(discardPile.getCards());
+        for (Card currCard : discardPile.getCards()) {
+            currCard.flip();
+            stockPile.addCard(currCard);
+        }
+        discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        //TODO
-        return true;
+        Card lastCardInPile = destPile.getTopCard();
+        int rankOfKing = 13;
+        if (lastCardInPile == null){
+            if (card.getRank() == rankOfKing){
+                return true;
+            }
+            return false;
+        } else {
+            return Card.isOppositeColor(card, lastCardInPile) && lastCardInPile.getRank() - card.getRank() == 1;
+        }
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
@@ -182,13 +197,34 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
         deckIterator.forEachRemaining(card -> {
-            stockPile.addCard(card);
+            if (tableauPiles.get(6).numOfCards() < 7){
+                tableauPiles.get(6).addCard(card);
+            } else if (tableauPiles.get(5).numOfCards() < 6) {
+                tableauPiles.get(5).addCard(card);
+            } else if (tableauPiles.get(4).numOfCards() < 5) {
+                tableauPiles.get(4).addCard(card);
+            } else if (tableauPiles.get(3).numOfCards() < 4) {
+                tableauPiles.get(3).addCard(card);
+            } else if (tableauPiles.get(2).numOfCards() < 3) {
+                tableauPiles.get(2).addCard(card);
+            } else if (tableauPiles.get(1).numOfCards() < 2) {
+                tableauPiles.get(1).addCard(card);
+            } else if (tableauPiles.get(0).numOfCards() < 1) {
+                tableauPiles.get(0).addCard(card);
+            } else {
+                stockPile.addCard(card);
+            }
             addMouseEventHandlers(card);
             getChildren().add(card);
         });
 
+    }
+
+    private void flipTheTopCardOfAllTableauPiles() {
+        for (int i=0; i<tableauPiles.size() ; i++) {
+            tableauPiles.get(i).getTopCard().flip();
+        }
     }
 
     public void setTableBackground(Image tableBackground) {
