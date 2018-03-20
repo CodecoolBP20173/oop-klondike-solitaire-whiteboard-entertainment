@@ -40,8 +40,7 @@ public class Pile extends Pane {
     }
 
     public int numOfCards() {
-        //TODO
-        return 1;
+        return this.cards.size();
     }
 
     public boolean isEmpty() {
@@ -49,7 +48,7 @@ public class Pile extends Pane {
     }
 
     public void clear() {
-        //TODO
+        this.cards.clear();
     }
 
     public void addCard(Card card) {
@@ -72,6 +71,13 @@ public class Pile extends Pane {
             return null;
         else
             return cards.get(cards.size() - 1);
+    }
+
+    public static void flipTopCardIfTableau(Pile sourcePile) {
+        if (sourcePile.getPileType() == Pile.PileType.TABLEAU) {
+            Card card = sourcePile.getTopCard();
+            if (card.isFaceDown()) card.flip();
+        }
     }
 
     public void setBlurredBackground() {
