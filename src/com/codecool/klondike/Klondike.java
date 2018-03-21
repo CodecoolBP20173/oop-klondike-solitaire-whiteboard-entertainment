@@ -35,6 +35,7 @@ public class Klondike extends Application {
     public void startGame(Stage primaryStage) {
         Card.loadCardImages();
         Game game = new Game();
+        MouseUtil.myGame = game;
         game.setStyle(
                 "-fx-background-image: url(" +
                         "'https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png'" +

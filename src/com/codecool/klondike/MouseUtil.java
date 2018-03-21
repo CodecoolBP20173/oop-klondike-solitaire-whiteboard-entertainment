@@ -56,7 +56,7 @@ public class MouseUtil {
             double sourceY = currentCard.getLayoutY() + currentCard.getTranslateY();
 
             animateCardMovement(currentCard, sourceX, sourceY, targetX,
-                    targetY + ((destPile.isEmpty() ? i : i + 1) * destCardGap), Duration.millis(500),
+                    targetY + ((destPile.isEmpty() ? i : i + 1) * destCardGap), Duration.millis(150),
                     e -> {
                         currentCard.moveToPile(destPile);
                         currentCard.getDropShadow().setRadius(2);
@@ -68,7 +68,7 @@ public class MouseUtil {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Congratulations!");
                             alert.setHeaderText(null);
-                            alert.setContentText("You won!");
+                            alert.setContentText("You won!\nThe program will exit now...");
                             alert.show();
                             alert.setOnCloseRequest((event) -> {
                                 System.exit(0);
