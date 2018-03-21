@@ -5,7 +5,7 @@ public class Theme {
     private String backgroundImage;
     private String cardBack;
 
-    public void Theme(String themeImage, String cardBack){
+    public Theme(String themeImage, String cardBack){
         this.backgroundImage = themeImage;
         this.cardBack = cardBack;
     }
