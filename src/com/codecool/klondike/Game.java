@@ -287,6 +287,10 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
+    public void restartGame() {
+
+    }
+
 
     }
 
