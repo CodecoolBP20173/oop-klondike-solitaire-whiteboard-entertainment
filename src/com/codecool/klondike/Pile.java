@@ -8,8 +8,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.util.List;
-import java.util.ListIterator;
+import java.util.ArrayList;
 
 public class Pile extends Pane {
 
@@ -40,8 +39,7 @@ public class Pile extends Pane {
     }
 
     public int numOfCards() {
-        //TODO
-        return 1;
+        return this.cards.size();
     }
 
     public boolean isEmpty() {
@@ -49,7 +47,7 @@ public class Pile extends Pane {
     }
 
     public void clear() {
-        //TODO
+        this.cards.clear();
     }
 
     public void addCard(Card card) {
@@ -61,8 +59,8 @@ public class Pile extends Pane {
 
     private void layoutCard(Card card) {
         card.relocate(card.getLayoutX() + card.getTranslateX(), card.getLayoutY() + card.getTranslateY());
-        card.setTranslateX(0);
-        card.setTranslateY(0);
+        card.setTranslateX(0); //-35
+        card.setTranslateY(0); //25
         card.setLayoutX(getLayoutX());
         card.setLayoutY(getLayoutY() + (cards.size() - 1) * cardGap);
     }
@@ -74,6 +72,13 @@ public class Pile extends Pane {
             return cards.get(cards.size() - 1);
     }
 
+    public static void flipTopCardIfTableau(Pile sourcePile) {
+        if (sourcePile.getPileType() == Pile.PileType.TABLEAU) {
+            Card card = sourcePile.getTopCard();
+            if (card.isFaceDown()) card.flip();
+        }
+    }
+
     public void setBlurredBackground() {
         setPrefSize(Card.WIDTH, Card.HEIGHT);
         BackgroundFill backgroundFill = new BackgroundFill(Color.gray(0.0, 0.2), null, null);
@@ -81,6 +86,14 @@ public class Pile extends Pane {
         GaussianBlur gaussianBlur = new GaussianBlur(10);
         setBackground(background);
         setEffect(gaussianBlur);
+    }
+
+    public ArrayList<Card> getAllFlippedCards() {
+        ArrayList<Card> flippedCards = new ArrayList<>();
+        for (Card currCard : this.getCards()){
+            if (!currCard.isFaceDown()) flippedCards.add(currCard);
+        }
+        return flippedCards;
     }
 
     public enum PileType {
