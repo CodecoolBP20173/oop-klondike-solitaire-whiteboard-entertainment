@@ -15,11 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Game extends Pane {
 
@@ -29,6 +25,8 @@ public class Game extends Pane {
     private Pile discardPile;
     private List<Pile> foundationPiles = FXCollections.observableArrayList();
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
+
+    private Stack<Move> madeMoves = new Stack<>();
 
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
@@ -112,6 +110,17 @@ public class Game extends Pane {
             }
         }
     };
+
+    void saveMove(Move m){
+        this.madeMoves.push(m);
+    }
+
+    private Move getLastMove(){
+        if (!this.madeMoves.empty()){
+            return this.madeMoves.pop();
+        }
+        throw new EmptyStackException();
+    }
 
     public boolean isGameWon() {
         int cardCount = 0;
