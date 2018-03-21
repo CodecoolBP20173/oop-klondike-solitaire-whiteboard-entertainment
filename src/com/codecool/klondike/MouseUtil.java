@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -17,6 +18,8 @@ import javafx.util.Duration;
 import java.util.List;
 
 public class MouseUtil {
+
+    public static Game myGame;
 
     public static void slideBack(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
@@ -53,13 +56,24 @@ public class MouseUtil {
             double sourceY = currentCard.getLayoutY() + currentCard.getTranslateY();
 
             animateCardMovement(currentCard, sourceX, sourceY, targetX,
-                    targetY + ((destPile.isEmpty() ? i : i + 1) * destCardGap), Duration.millis(500),
+                    targetY + ((destPile.isEmpty() ? i : i + 1) * destCardGap), Duration.millis(150),
                     e -> {
                         currentCard.moveToPile(destPile);
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
                         Pile.flipTopCardIfTableau(sourcePile);
+                        boolean gameWon = myGame.isGameWon();
+                        if (gameWon) {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Congratulations!");
+                            alert.setHeaderText(null);
+                            alert.setContentText("You won!\nThe program will exit now...");
+                            alert.show();
+                            alert.setOnCloseRequest((event) -> {
+                                System.exit(0);
+                            });
+                        }
                     });
         }
     }
