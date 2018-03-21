@@ -25,11 +25,10 @@ public class Klondike extends Application {
     @Override
     public void start(Stage primaryStage) {
         startGame(primaryStage);
-        restartGame(primaryStage);
     }
 
     public void restartGame(Stage primaryStage){
-        primaryStage.close();
+        //primaryStage.close();
         startGame(primaryStage);
     }
 
@@ -57,25 +56,31 @@ public class Klondike extends Application {
 
         MenuBar menuBar = new MenuBar();
 
-        Menu newGame = new Menu("New game");
+        Menu gameMenu = new Menu("Game");
         Menu backSides = new Menu("Themes");
 
-        MenuItem crap = new MenuItem("Crap");
-        MenuItem monaLiza= new MenuItem("Crap");
+        MenuItem restart = new MenuItem("Restart");
+        MenuItem exit = new MenuItem("Exit");
 
 
-        backSides.getItems().add(crap);
-        backSides.getItems().add(monaLiza);
+        gameMenu.getItems().add(restart);
+        gameMenu.getItems().add(exit);
+
         backSides.getItems().add(new SeparatorMenuItem());
         backSides.getItems().add(new MenuItem("Greenfox"));
 
-        menuBar.getMenus().addAll(newGame, backSides);
+        menuBar.getMenus().addAll(gameMenu, backSides);
         menuBar.setStyle("fx-padding: 1  5 1 5");
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
 
-        crap.setOnAction((event) -> {
-                System.exit(0);
+        restart.setOnAction((event) -> {
+            restartGame(primaryStage);
         });
+
+        exit.setOnAction((event) -> {
+            System.exit(0);
+        });
+
         game.getChildren().add(menuBar);
 
     }
