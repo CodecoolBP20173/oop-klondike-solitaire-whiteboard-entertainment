@@ -59,8 +59,8 @@ public class Pile extends Pane {
 
     private void layoutCard(Card card) {
         card.relocate(card.getLayoutX() + card.getTranslateX(), card.getLayoutY() + card.getTranslateY());
-        card.setTranslateX(0);
-        card.setTranslateY(0);
+        card.setTranslateX(0); //-35
+        card.setTranslateY(0); //25
         card.setLayoutX(getLayoutX());
         card.setLayoutY(getLayoutY() + (cards.size() - 1) * cardGap);
     }
