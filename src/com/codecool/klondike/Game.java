@@ -43,6 +43,13 @@ public class Game extends Pane {
             card.flip();
             card.setMouseTransparent(false);
             System.out.println("Placed " + card + " to the waste.");
+
+            List<Card> movedCards = new ArrayList<>();
+            movedCards.add(card);
+            Move m = new Move(movedCards, stockPile, discardPile, false);
+            saveMove(m);
+            m = new Move(movedCards, discardPile, discardPile, true);
+            saveMove(m);
         }
     };
 
