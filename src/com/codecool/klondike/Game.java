@@ -3,7 +3,8 @@ package com.codecool.klondike;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
+import javafx.scene.control. *;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -107,12 +108,24 @@ public class Game extends Pane {
                 handleValidMove(card, pile);
                 MouseUtil.slideToDest(draggedCards, pile);
             }
-
         }
+        isGameWon();
     };
 
     public boolean isGameWon() {
         //TODO
+        int cardCount = 0;
+        for (int i = 0; i < foundationPiles.size(); i++) {
+            cardCount += foundationPiles.get(i).numOfCards();
+        }
+        if (cardCount == 52) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("You won!");
+            alert.showAndWait();
+            return true;
+        }
         return false;
     }
 
@@ -274,4 +287,7 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-}
+
+    }
+
+
