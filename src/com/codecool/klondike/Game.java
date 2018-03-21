@@ -136,6 +136,32 @@ public class Game extends Pane {
         throw new EmptyStackException();
     }
 
+    public void undoMove(){
+        try {
+            Move lastMove = this.getLastMove();
+            List<Card> movedCards = lastMove.getMovedCards();
+
+            if (lastMove.getIfFlip()){
+                for (Card card: movedCards){
+                    card.flip();
+                }
+                undoMove();
+            } else {
+
+                Pile destPile = lastMove.getOriginalPile();
+
+                ListIterator<Card> iter = movedCards.listIterator();
+                while (iter.hasPrevious()){
+                    Card card = iter.previous();
+                    handleValidMove(card, destPile);
+                }
+                MouseUtil.slideToDest(movedCards, destPile);
+            }
+        } catch (EmptyStackException e){
+            System.out.println("There is no move to undo");
+        }
+    }
+
     public boolean isGameWon() {
         int cardCount = 0;
         for (int i = 0; i < foundationPiles.size(); i++) {
