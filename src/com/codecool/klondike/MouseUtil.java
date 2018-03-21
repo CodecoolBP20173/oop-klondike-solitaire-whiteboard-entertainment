@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -17,6 +18,8 @@ import javafx.util.Duration;
 import java.util.List;
 
 public class MouseUtil {
+
+    public static Game myGame;
 
     public static void slideBack(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
@@ -60,6 +63,17 @@ public class MouseUtil {
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
                         Pile.flipTopCardIfTableau(sourcePile);
+                        boolean gameWon = myGame.isGameWon();
+                        if (gameWon) {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Congratulations!");
+                            alert.setHeaderText(null);
+                            alert.setContentText("You won!");
+                            alert.show();
+                            alert.setOnCloseRequest((event) -> {
+                                System.exit(0);
+                            });
+                        }
                     });
         }
     }
