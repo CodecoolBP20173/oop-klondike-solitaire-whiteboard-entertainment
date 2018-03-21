@@ -102,21 +102,28 @@ public class Game extends Pane {
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
 
-        //TODO ?Might be done?
         if (pile != null) {
-            handleValidMove(card, pile);
-            MouseUtil.slideToDest(draggedCards, pile);
+            makeMove(card, draggedCards, pile);
         } else {
             pile = getValidIntersectingPile(card, foundationPiles);
             if (pile == null) {
                 draggedCards.forEach(MouseUtil::slideBack);
                 draggedCards.clear();
             } else {
-                handleValidMove(card, pile);
-                MouseUtil.slideToDest(draggedCards, pile);
+                makeMove(card, draggedCards, pile);
             }
         }
+
     };
+
+    private void makeMove(Card card, List<Card> dCards, Pile dPile){
+        List<Card> movedCards = new ArrayList<>(dCards);
+        Move m = new Move(movedCards, card.getContainingPile(), dPile, false);
+        saveMove(m);
+
+        handleValidMove(card, dPile);
+        MouseUtil.slideToDest(dCards, dPile);
+    }
 
     void saveMove(Move m){
         this.madeMoves.push(m);
