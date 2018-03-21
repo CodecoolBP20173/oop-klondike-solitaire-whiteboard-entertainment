@@ -240,21 +240,21 @@ public class Game extends Pane {
 
 
     private void initPiles() {
-        stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
+        stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP, this);
         stockPile.setBlurredBackground();
         stockPile.setLayoutX(60);// 95
         stockPile.setLayoutY(45); //20
         stockPile.setOnMouseClicked(stockReverseCardsHandler);
         getChildren().add(stockPile);
 
-        discardPile = new Pile(Pile.PileType.DISCARD, "Discard", STOCK_GAP);
+        discardPile = new Pile(Pile.PileType.DISCARD, "Discard", STOCK_GAP, this);
         discardPile.setBlurredBackground();
         discardPile.setLayoutX(250); //285
         discardPile.setLayoutY(45); //20
         getChildren().add(discardPile);
 
         for (int i = 0; i < 4; i++) {
-            Pile foundationPile = new Pile(Pile.PileType.FOUNDATION, "Foundation " + i, FOUNDATION_GAP);
+            Pile foundationPile = new Pile(Pile.PileType.FOUNDATION, "Foundation " + i, FOUNDATION_GAP, this);
             foundationPile.setBlurredBackground();
             foundationPile.setLayoutX(575 + i * 180); //610
             foundationPile.setLayoutY(45); //20
@@ -262,7 +262,7 @@ public class Game extends Pane {
             getChildren().add(foundationPile);
         }
         for (int i = 0; i < 7; i++) {
-            Pile tableauPile = new Pile(Pile.PileType.TABLEAU, "Tableau " + i, TABLEAU_GAP);
+            Pile tableauPile = new Pile(Pile.PileType.TABLEAU, "Tableau " + i, TABLEAU_GAP, this);
             tableauPile.setBlurredBackground();
             tableauPile.setLayoutX(60 + i * 180);
             tableauPile.setLayoutY(300); //275
