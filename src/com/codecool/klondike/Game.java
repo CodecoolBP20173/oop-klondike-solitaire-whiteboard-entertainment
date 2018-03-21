@@ -154,8 +154,18 @@ public class Game extends Pane {
             currCard.flip();
             stockPile.addCard(currCard);
         }
+
+        Collections.reverse(discardPile.getCards());
+        List<Card> refilledCards = new ArrayList<>(discardPile.getCards());
+
+        Move m = new Move(refilledCards, discardPile, stockPile, false);
+        saveMove(m);
+        m = new Move(refilledCards, stockPile, stockPile, true);
+        saveMove(m);
+
         discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
+
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
