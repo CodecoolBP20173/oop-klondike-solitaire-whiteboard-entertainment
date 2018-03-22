@@ -116,6 +116,21 @@ public class Game extends Pane {
 
     };
 
+    private EventHandler<MouseEvent> onMouseDoubleClickedHandler = e -> {
+        if (!draggedCards.isEmpty()) return;
+
+        int clickCount = e.getClickCount();
+        if (clickCount == 2){
+            int aceRank = 1;
+            Card currentCard = (Card) e.getSource();
+            if (currentCard.getRank() == aceRank){
+                handleAceMoving(currentCard);
+            } else {
+                handleCardMoving(currentCard);
+            }
+        }
+    };
+
     private void makeMove(Card card, List<Card> dCards, Pile dPile){
         List<Card> movedCards = new ArrayList<>(dCards);
         Move m = new Move(movedCards, card.getContainingPile(), dPile, false);
