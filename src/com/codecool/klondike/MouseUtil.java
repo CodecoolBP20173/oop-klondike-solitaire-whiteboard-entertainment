@@ -31,6 +31,7 @@ public class MouseUtil {
                     card.getDropShadow().setRadius(2);
                     card.getDropShadow().setOffsetX(0);
                     card.getDropShadow().setOffsetY(0);
+                    myGame.draggedCards.remove(card);
                 });
     }
 
@@ -82,6 +83,7 @@ public class MouseUtil {
                                 });
                             }
                         }
+                        myGame.draggedCards.remove(currentCard);
 
                     });
 

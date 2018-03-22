@@ -29,7 +29,7 @@ public class Game extends Pane {
     private Stack<Move> madeMoves = new Stack<>();
 
     private double dragStartX, dragStartY;
-    private List<Card> draggedCards = FXCollections.observableArrayList();
+    List<Card> draggedCards = FXCollections.observableArrayList();
 
     private static double STOCK_GAP = 1;
     private static double FOUNDATION_GAP = 0;
@@ -72,15 +72,15 @@ public class Game extends Pane {
             double offsetX = e.getSceneX() - dragStartX;
             double offsetY = e.getSceneY() - dragStartY;
 
-            draggedCards.clear();
-            int currCardIdx = flippedCardsInPile.indexOf(card);
-            if (flippedCardsInPile.indexOf(card) != flippedCardsInPile.size())
-            {
-                for (int i = currCardIdx; i < flippedCardsInPile.size(); i++){
-                    draggedCards.add(flippedCardsInPile.get(i));
+            if (draggedCards.isEmpty()) {
+                int currCardIdx = flippedCardsInPile.indexOf(card);
+                if (flippedCardsInPile.indexOf(card) != flippedCardsInPile.size()) {
+                    for (int i = currCardIdx; i < flippedCardsInPile.size(); i++) {
+                        draggedCards.add(flippedCardsInPile.get(i));
+                    }
+                } else {
+                    draggedCards.add(card);
                 }
-            } else {
-                draggedCards.add(card);
             }
 
 
@@ -108,7 +108,6 @@ public class Game extends Pane {
             pile = getValidIntersectingPile(card, foundationPiles);
             if (pile == null) {
                 draggedCards.forEach(MouseUtil::slideBack);
-                draggedCards.clear();
             } else {
                 makeMove(card, draggedCards, pile);
             }
