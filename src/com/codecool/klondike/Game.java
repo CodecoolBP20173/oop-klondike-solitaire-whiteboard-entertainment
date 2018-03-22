@@ -46,6 +46,9 @@ public class Game extends Pane {
 
             List<Card> movedCards = new ArrayList<>();
             movedCards.add(card);
+
+            MouseUtil.slideToDest(movedCards, discardPile);
+
             Move m = new Move(movedCards, stockPile, discardPile, false);
             saveMove(m);
             m = new Move(movedCards, discardPile, discardPile, true);

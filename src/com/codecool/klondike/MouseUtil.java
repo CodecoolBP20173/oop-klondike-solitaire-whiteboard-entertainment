@@ -4,6 +4,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 import java.util.List;
+import java.util.Random;
 
 public class MouseUtil {
 
@@ -111,6 +113,20 @@ public class MouseUtil {
 
         ParallelTransition pt = new ParallelTransition(card, pathTransition, blurReset);
         pt.play();
+
+        vomitCard(card);
+
+    }
+
+    private static void vomitCard(Card card) {
+        Random rand = new Random();
+        int  n = rand.nextInt(12) - 4;
+
+        RotateTransition rt = new RotateTransition(Duration.millis(200), card);
+        rt.setByAngle(n);
+        rt.setCycleCount(1);
+        rt.setAutoReverse(true);
+        rt.play();
     }
 
     private static class MoveToAbs extends MoveTo {
