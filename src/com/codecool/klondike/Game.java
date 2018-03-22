@@ -119,10 +119,12 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDoubleClickedHandler = e -> {
         if (!draggedCards.isEmpty()) return;
 
+        Card currentCard = (Card) e.getSource();
+        if (currentCard.isFaceDown()) return;
+
         int clickCount = e.getClickCount();
         if (clickCount == 2){
             int aceRank = 1;
-            Card currentCard = (Card) e.getSource();
             if (currentCard.getRank() == aceRank){
                 handleAceMoving(currentCard);
             } else {
