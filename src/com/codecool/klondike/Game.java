@@ -116,6 +116,62 @@ public class Game extends Pane {
 
     };
 
+    private EventHandler<MouseEvent> onMouseDoubleClickedHandler = e -> {
+        if (!draggedCards.isEmpty()) return;
+
+        Card currentCard = (Card) e.getSource();
+        if (currentCard.isFaceDown()) return;
+
+        int clickCount = e.getClickCount();
+        if (clickCount == 2){
+            int aceRank = 1;
+            if (currentCard.getRank() == aceRank){
+                handleAceMoving(currentCard);
+            } else {
+                handleCardMoving(currentCard);
+            }
+        }
+    };
+
+    private void handleAceMoving(Card card){
+        Pile destPile = findEmptyFoundation();
+        if (destPile != null){
+            List<Card> movedCards = new ArrayList<>();
+            movedCards.add(card);
+
+            makeMove(card, movedCards, destPile);
+        }
+    }
+
+    private Pile findEmptyFoundation(){
+        for (Pile fPile : foundationPiles){
+            if (fPile.isEmpty()) return fPile;
+        }
+        return null;
+    }
+
+    private Pile findCorrectFoundation(Card card){
+        for (Pile fPile : foundationPiles){
+            if (!fPile.isEmpty()) {
+                Card pileTopCard = fPile.getTopCard();
+                if (Card.isSameSuit(card, pileTopCard)) {
+                    if (isMoveValid(card, fPile)) return fPile;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void handleCardMoving(Card card){
+        Pile destPile = findCorrectFoundation(card);
+        if (destPile != null) {
+            List<Card> movedCards = new ArrayList<>();
+            movedCards.add(card);
+
+            makeMove(card, movedCards, destPile);
+        }
+    }
+
     private void makeMove(Card card, List<Card> dCards, Pile dPile){
         List<Card> movedCards = new ArrayList<>(dCards);
         Move m = new Move(movedCards, card.getContainingPile(), dPile, false);
@@ -186,6 +242,7 @@ public class Game extends Pane {
         card.setOnMouseDragged(onMouseDraggedHandler);
         card.setOnMouseReleased(onMouseReleasedHandler);
         card.setOnMouseClicked(onMouseClickedHandler);
+        card.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseDoubleClickedHandler);
     }
 
     public void refillStockFromDiscard() {
