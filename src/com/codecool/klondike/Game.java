@@ -150,9 +150,11 @@ public class Game extends Pane {
 
     private Pile findCorrectFoundation(Card card){
         for (Pile fPile : foundationPiles){
-            Card pileTopCard = fPile.getTopCard();
-            if (Card.isSameSuit(card,pileTopCard)){
-                if (isMoveValid(card, fPile)) return fPile;
+            if (!fPile.isEmpty()) {
+                Card pileTopCard = fPile.getTopCard();
+                if (Card.isSameSuit(card, pileTopCard)) {
+                    if (isMoveValid(card, fPile)) return fPile;
+                }
             }
         }
         return null;
