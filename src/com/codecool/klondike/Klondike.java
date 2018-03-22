@@ -20,6 +20,9 @@ public class Klondike extends Application {
 
     private static final double WINDOW_WIDTH = 1400;
     private static final double WINDOW_HEIGHT = 900;
+    private static String lastBackground = "https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png";
+    private static String lastCardBack = "card_images/unicorn_cardback.png";
+
 
     public static void main(String[] args) {
         launch(args);
@@ -27,15 +30,13 @@ public class Klondike extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Theme standardTheme = new Theme("https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png",
-                "card_images/unicorn_cardback.png");
+        Theme standardTheme = new Theme(lastBackground, lastCardBack);
         startGame(primaryStage, standardTheme);
     }
 
     public void restartGame(Stage primaryStage){
         //primaryStage.close();
-        Theme standardTheme = new Theme("https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png",
-                "card_images/unicorn_cardback.png");
+        Theme standardTheme = new Theme(lastBackground, lastCardBack);
         startGame(primaryStage, standardTheme);
     }
 
@@ -112,21 +113,29 @@ public class Klondike extends Application {
         Theme standardUnicorn = new Theme("https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png",
                 "card_images/unicorn_cardback.png");
         firstTheme.setOnAction((event) -> {
+            lastBackground = "https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png";
+            lastCardBack = "card_images/unicorn_cardback.png";
             startGame(primaryStage, standardUnicorn);
         });
 
         Theme sluttyLisaTheme = new Theme("/table/green.png", "card_images/card_back.png");
         secondTheme.setOnAction((event) -> {
+            lastBackground = "/table/green.png";
+            lastCardBack = "card_images/card_back.png";
             startGame(primaryStage, sluttyLisaTheme);
         });
 
         Theme creepyTheme = new Theme("https://i.pinimg.com/originals/f0/df/1a/f0df1ae42d7ffb8fbdcc41b3d59c7937.jpg", "/card_images/pennywise.png");
         thirdTheme.setOnAction((event) -> {
+            lastBackground = "https://i.pinimg.com/originals/f0/df/1a/f0df1ae42d7ffb8fbdcc41b3d59c7937.jpg";
+            lastCardBack = "/card_images/pennywise.png";
             startGame(primaryStage, creepyTheme);
         });
 
         Theme anotherCreepyTheme = new Theme("https://i.pinimg.com/originals/f0/df/1a/f0df1ae42d7ffb8fbdcc41b3d59c7937.jpg", "/card_images/penny.jpg");
         fourthTheme.setOnAction((event) -> {
+            lastBackground = "https://i.pinimg.com/originals/f0/df/1a/f0df1ae42d7ffb8fbdcc41b3d59c7937.jpg";
+            lastCardBack = "/card_images/penny.jpg";
             startGame(primaryStage, anotherCreepyTheme);
         });
 
