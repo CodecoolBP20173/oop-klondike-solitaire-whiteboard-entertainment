@@ -131,6 +131,23 @@ public class Game extends Pane {
         }
     };
 
+    private void handleAceMoving(Card card){
+        Pile destPile = findEmptyFoundation();
+        if (destPile != null){
+            List<Card> movedCards = new ArrayList<>();
+            movedCards.add(card);
+
+            makeMove(card, movedCards, destPile);
+        }
+    }
+
+    private Pile findEmptyFoundation(){
+        for (Pile fPile : foundationPiles){
+            if (fPile.isEmpty()) return fPile;
+        }
+        return null;
+    }
+
     private void makeMove(Card card, List<Card> dCards, Pile dPile){
         List<Card> movedCards = new ArrayList<>(dCards);
         Move m = new Move(movedCards, card.getContainingPile(), dPile, false);
