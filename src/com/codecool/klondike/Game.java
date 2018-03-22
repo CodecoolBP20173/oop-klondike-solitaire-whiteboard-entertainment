@@ -148,6 +148,26 @@ public class Game extends Pane {
         return null;
     }
 
+    private Pile findCorrectFoundation(Card card){
+        for (Pile fPile : foundationPiles){
+            Card pileTopCard = fPile.getTopCard();
+            if (Card.isSameSuit(card,pileTopCard)){
+                if (isMoveValid(card, fPile)) return fPile;
+            }
+        }
+        return null;
+    }
+
+    private void handleCardMoving(Card card){
+        Pile destPile = findCorrectFoundation(card);
+        if (destPile != null) {
+            List<Card> movedCards = new ArrayList<>();
+            movedCards.add(card);
+
+            makeMove(card, movedCards, destPile);
+        }
+    }
+
     private void makeMove(Card card, List<Card> dCards, Pile dPile){
         List<Card> movedCards = new ArrayList<>(dCards);
         Move m = new Move(movedCards, card.getContainingPile(), dPile, false);
