@@ -25,14 +25,14 @@ public class Klondike extends Application {
     @Override
     public void start(Stage primaryStage) {
         Theme standardTheme = new Theme("https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png",
-                "card_images/card_back.png");
+                "card_images/unicorn_cardback.png");
         startGame(primaryStage, standardTheme);
     }
 
     public void restartGame(Stage primaryStage){
         //primaryStage.close();
         Theme standardTheme = new Theme("https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png",
-                "card_images/card_back.png");
+                "card_images/unicorn_cardback.png");
         startGame(primaryStage, standardTheme);
     }
 
@@ -71,9 +71,11 @@ public class Klondike extends Application {
         MenuItem exit = new MenuItem("Exit");
 
 
-        MenuItem firstTheme = new MenuItem("Slutty Unicorn");
-        MenuItem secondTheme = new MenuItem("Tróger Unicorn");
-        MenuItem thirdTheme = new MenuItem("Horror Unicorn");
+        MenuItem firstTheme = new MenuItem("Standard Unicorn");
+        MenuItem secondTheme = new MenuItem("Slutty Lisa");
+        MenuItem thirdTheme = new MenuItem("Creepy Red");
+        MenuItem fourthTheme = new MenuItem("Creepy Black");
+
 
 
 
@@ -84,6 +86,7 @@ public class Klondike extends Application {
         backSides.getItems().add(firstTheme);
         backSides.getItems().add(secondTheme);
         backSides.getItems().add(thirdTheme);
+        backSides.getItems().add(fourthTheme);
 
 
         menuBar.getMenus().addAll(gameMenu, backSides);
@@ -98,14 +101,25 @@ public class Klondike extends Application {
             System.exit(0);
         });
 
-        Theme creepyTheme = new Theme("https://i.pinimg.com/originals/f0/df/1a/f0df1ae42d7ffb8fbdcc41b3d59c7937.jpg", "card_images/card_back1.png");
+        Theme standardUnicorn = new Theme("https://img00.deviantart.net/1609/i/2016/332/f/7/unicorn_background_for_wildtangent_solitaire_by_catwagons-dapxtfm.png",
+                "card_images/unicorn_cardback.png");
+        firstTheme.setOnAction((event) -> {
+            startGame(primaryStage, standardUnicorn);
+        });
+
+        Theme sluttyLisaTheme = new Theme("/table/green.png", "card_images/card_back.png");
+        secondTheme.setOnAction((event) -> {
+            startGame(primaryStage, sluttyLisaTheme);
+        });
+
+        Theme creepyTheme = new Theme("https://i.pinimg.com/originals/f0/df/1a/f0df1ae42d7ffb8fbdcc41b3d59c7937.jpg", "/card_images/pennywise.png");
         thirdTheme.setOnAction((event) -> {
             startGame(primaryStage, creepyTheme);
         });
 
-        Theme sluttyLisaTheme = new Theme("http://getwallpapers.com/wallpaper/full/5/e/e/605242.jpg", "card_images/card_back.png");
-        firstTheme.setOnAction((event) -> {
-            startGame(primaryStage, sluttyLisaTheme);
+        Theme anotherCreepyTheme = new Theme("https://i.pinimg.com/originals/f0/df/1a/f0df1ae42d7ffb8fbdcc41b3d59c7937.jpg", "/card_images/penny.jpg");
+        fourthTheme.setOnAction((event) -> {
+            startGame(primaryStage, anotherCreepyTheme);
         });
 
             game.getChildren().add(menuBar);
