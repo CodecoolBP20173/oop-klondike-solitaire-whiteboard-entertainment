@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Pile extends Pane {
 
@@ -17,9 +18,12 @@ public class Pile extends Pane {
     private double cardGap;
     private ObservableList<Card> cards = FXCollections.observableArrayList();
 
-    public Pile(PileType pileType, String name, double cardGap) {
+    private static Game myGame;
+
+    public Pile(PileType pileType, String name, double cardGap, Game game) {
         this.pileType = pileType;
         this.cardGap = cardGap;
+        myGame = game;
     }
 
     public PileType getPileType() {
@@ -75,7 +79,18 @@ public class Pile extends Pane {
     public static void flipTopCardIfTableau(Pile sourcePile) {
         if (sourcePile.getPileType() == Pile.PileType.TABLEAU) {
             Card card = sourcePile.getTopCard();
-            if (card.isFaceDown()) card.flip();
+            if (card != null){
+                if (card.isFaceDown()){
+                    card.flip();
+
+                    List<Card> flippedCards = new ArrayList<>();
+                    flippedCards.add(card);
+
+                    Move m = new Move(flippedCards, sourcePile, sourcePile, true);
+                    myGame.saveMove(m);
+                }
+
+            }
         }
     }
 

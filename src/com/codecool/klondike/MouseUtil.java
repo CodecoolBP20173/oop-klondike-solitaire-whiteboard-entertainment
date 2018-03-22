@@ -62,19 +62,29 @@ public class MouseUtil {
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
-                        Pile.flipTopCardIfTableau(sourcePile);
-                        boolean gameWon = myGame.isGameWon();
-                        if (gameWon) {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("Congratulations!");
-                            alert.setHeaderText(null);
-                            alert.setContentText("You won!\nThe program will exit now...");
-                            alert.show();
-                            alert.setOnCloseRequest((event) -> {
-                                System.exit(0);
-                            });
+
+                        Pile.PileType sourceType = sourcePile.getPileType();
+
+                        if (sourceType == Pile.PileType.TABLEAU || sourceType == Pile.PileType.FOUNDATION) {
+                            if (!sourcePile.isEmpty()){
+                                Pile.flipTopCardIfTableau(sourcePile);
+                            }
+
+                            boolean gameWon = myGame.isGameWon();
+                            if (gameWon) {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Congratulations!");
+                                alert.setHeaderText(null);
+                                alert.setContentText("You won!\nThe program will exit now...");
+                                alert.show();
+                                alert.setOnCloseRequest((event) -> {
+                                    System.exit(0);
+                                });
+                            }
                         }
+
                     });
+
         }
     }
 

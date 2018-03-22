@@ -3,6 +3,9 @@ package com.codecool.klondike;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Menu;
@@ -67,6 +70,7 @@ public class Klondike extends Application {
         Menu gameMenu = new Menu("Game");
         Menu backSides = new Menu("Themes");
 
+        MenuItem undo = new MenuItem("Undo move");
         MenuItem restart = new MenuItem("Restart");
         MenuItem exit = new MenuItem("Exit");
 
@@ -76,9 +80,8 @@ public class Klondike extends Application {
         MenuItem thirdTheme = new MenuItem("Creepy Red");
         MenuItem fourthTheme = new MenuItem("Creepy Black");
 
-
-
-
+        gameMenu.getItems().add(undo);
+      
         gameMenu.getItems().add(restart);
         gameMenu.getItems().add(exit);
 
@@ -92,6 +95,11 @@ public class Klondike extends Application {
         menuBar.getMenus().addAll(gameMenu, backSides);
         menuBar.setStyle("fx-padding: 1  5 1 5");
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
+
+        undo.setOnAction((event) -> {
+            game.undoMove();
+        });
+        undo.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
 
         restart.setOnAction((event) -> {
             restartGame(primaryStage);
