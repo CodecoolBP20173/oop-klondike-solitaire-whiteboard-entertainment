@@ -4,19 +4,24 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 import java.util.List;
+import java.util.Random;
 
 public class MouseUtil {
+
+    public static Game myGame;
 
     public static void slideBack(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
@@ -28,6 +33,7 @@ public class MouseUtil {
                     card.getDropShadow().setRadius(2);
                     card.getDropShadow().setOffsetX(0);
                     card.getDropShadow().setOffsetY(0);
+                    myGame.draggedCards.remove(card);
                 });
     }
 
@@ -48,6 +54,7 @@ public class MouseUtil {
 
         for (int i = 0; i < cardsToSlide.size(); i++) {
             Card currentCard = cardsToSlide.get(i);
+            Pile sourcePile = currentCard.getContainingPile();
             double sourceX = currentCard.getLayoutX() + currentCard.getTranslateX();
             double sourceY = currentCard.getLayoutY() + currentCard.getTranslateY();
 
@@ -58,9 +65,33 @@ public class MouseUtil {
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
+
+                        Pile.PileType sourceType = sourcePile.getPileType();
+
+                        if (sourceType == Pile.PileType.TABLEAU || sourceType == Pile.PileType.FOUNDATION) {
+                            if (!sourcePile.isEmpty()){
+                                Pile.flipTopCardIfTableau(sourcePile);
+                            }
+
+                            boolean gameWon = myGame.isGameWon();
+                            if (gameWon) {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Congratulations!");
+                                alert.setHeaderText(null);
+                                alert.setContentText("You won!\nThe program will exit now...");
+                                alert.show();
+                                alert.setOnCloseRequest((event) -> {
+                                    System.exit(0);
+                                });
+                            }
+                        }
+                        myGame.draggedCards.remove(currentCard);
+
                     });
+
         }
     }
+
 
     private static void animateCardMovement(
             Card card, double sourceX, double sourceY,
@@ -84,6 +115,20 @@ public class MouseUtil {
 
         ParallelTransition pt = new ParallelTransition(card, pathTransition, blurReset);
         pt.play();
+
+        vomitCard(card);
+
+    }
+
+    private static void vomitCard(Card card) {
+        Random rand = new Random();
+        int  n = rand.nextInt(12) - 4;
+
+        RotateTransition rt = new RotateTransition(Duration.millis(200), card);
+        rt.setByAngle(n);
+        rt.setCycleCount(1);
+        rt.setAutoReverse(true);
+        rt.play();
     }
 
     private static class MoveToAbs extends MoveTo {
